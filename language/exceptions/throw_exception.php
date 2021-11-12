@@ -13,5 +13,6 @@ try {
     getException();
 } catch (Exception $exception) {
     echo $exception->getMessage();
+    var_dump($exception);
 }
 
