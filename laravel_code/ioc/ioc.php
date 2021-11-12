@@ -1,5 +1,7 @@
 <?php
 /**
+ * https://blog.csdn.net/maclechan/article/details/103248382?spm=1001.2014.3001.5501
+ *
  * 没有依赖注入
  */
 //// 文件缓存类
@@ -77,11 +79,11 @@
 //$use->register('188-4561-9852');
 
 
+
 //缓存接口
 interface Cache
 {
     public function get($key);
-
     public function put($key, $value);
 }
 //文件缓存类
@@ -141,8 +143,8 @@ class User
 }
 
 //使用
-$use = new User(new RedisCache());
-$use->register('188-4561-9852');
+//$use = new User(new RedisCache());
+//$use->register('188-4561-9852');
 
 
 /**
@@ -168,19 +170,25 @@ class Container
          * 则构建一个闭包
          * 1.如果参数是绑定接口和实现类 如传进来(Cache, FileCache) 则 bindings[Cache] = new FileCache
          *
-         * 2.如果参数是绑定依赖和实现 如传进来(User,User) 则 bindings[User] = new User(Cache) 注意：虽然这里看上去传的是接口Cache，但实际上
-         * 在第1步的时候注册了一个具体FileCache实现，即 new User(new FileCache)
+         * 2.如果参数是绑定依赖和实现 如传进来(User,User) 则 bindings[User] = new User(Cache) 注意：虽然这里看上去传的是接口Cache，
+         *   但实际上在第1步的时候注册了一个具体FileCache实现，即 new User(new FileCache)
          */
+
+        // 判断是不是闭包函数
         if(!$concrete instanceof Closure) {
+            var_dump($concrete);
             // 调用闭包时，传入的参数是容器本身，即 $this
             $concrete = function ($c) use ($concrete) {
+//                var_dump($c);
                 return $c->build($concrete);
             };
         }
 
         $this->bindings[$abstract] = $concrete;
+        // bindings[Cache] = new FileCache
+        // bindings[user]  = new User
 
-        //print_r($this->bindings[$abstract]);
+//        var_dump($this->bindings);
     }
 
     /**
@@ -198,10 +206,16 @@ class Container
         return $concrete($this);
     }
 
+    /**
+     * @param $concrete
+     * @return mixed|object
+     * @throws ReflectionException
+     */
     public function build($concrete)
     {
         // 初始化要反射的具体对象（比如FileCache）
         $reflector = new ReflectionClass($concrete);
+//        var_dump($reflector);
 
         // 检查类是否可实例化
         if (! $reflector->isInstantiable()) {
@@ -245,7 +259,7 @@ class Container
  */
 $ioc = new Container;
 //先绑定接口和某个实现类
-$ioc->bind('Cache','FileCache');
+$ioc->bind('Cache','RedisCache');
 //绑定使用类
 $ioc->bind('user','User');
 $user = $ioc->make("user");
