@@ -25,12 +25,14 @@ class A
 /*
  * B类想使用A类的get()方法
  * 1.使用继承，class B extends A，加大了耦合，能不使用就不使用
+ * 2.使用聚合关联关系，一般都是被关联对象以属性的方式出现在关联对象中
  */
 class B
 {
     protected $a;
 
     // 把A聚合到B类来
+    // A为被关联对象，以属性$a方式出现在关联对象B中
     public function __construct(A $a)
     {
         $this->a = $a;
