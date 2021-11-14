@@ -12,6 +12,11 @@
  * UML类图与类的关系详解
  * https://www.cnblogs.com/pangjianxin/p/7877868.html
  * 泛化，实现，组合，聚合，关联，依赖
+ *
+ * PHP实现泛化，聚合，组合
+ * https://blog.csdn.net/suiye/article/details/8880176
+ *
+ * 组合，直接在B类实例化A
  */
 
 class A
