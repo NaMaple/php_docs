@@ -67,7 +67,7 @@ class Qq implements Mail
 {
     public function sendMail()
     {
-        //todo
+        // 发送邮件逻辑
     }
 }
 
@@ -75,7 +75,7 @@ class Foxmail implements Mail
 {
     public function sendMail()
     {
-        //todo
+        // 发送邮件逻辑
     }
 }
 
@@ -88,6 +88,6 @@ class People
 }
 
 $people = new People();
-// 传递类型进去，类似简单工厂模式
+// todo 传递类型进去，类似简单工厂模式
 $people->send(new Qq());
 $people->send(new Foxmail());
